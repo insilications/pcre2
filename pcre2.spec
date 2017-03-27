@@ -6,7 +6,7 @@
 #
 Name     : pcre2
 Version  : 10.23
-Release  : 2
+Release  : 3
 URL      : http://downloads.sourceforge.net/project/pcre/pcre2/10.23/pcre2-10.23.tar.gz
 Source0  : http://downloads.sourceforge.net/project/pcre/pcre2/10.23/pcre2-10.23.tar.gz
 Source99 : http://downloads.sourceforge.net/project/pcre/pcre2/10.23/pcre2-10.23.tar.gz.sig
@@ -20,6 +20,7 @@ BuildRequires : bzip2-dev
 BuildRequires : pkgconfig(valgrind)
 BuildRequires : pkgconfig(zlib)
 BuildRequires : zlib-dev
+Patch1: cve-2017-7186.patch
 
 %description
 ------------------------------------------------------------------
@@ -64,10 +65,11 @@ lib components for the pcre2 package.
 
 %prep
 %setup -q -n pcre2-10.23
+%patch1 -p1
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1489894788
+export SOURCE_DATE_EPOCH=1490645797
 %configure --disable-static
 make V=1  %{?_smp_mflags}
 
@@ -79,7 +81,7 @@ export no_proxy=localhost
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1489894788
+export SOURCE_DATE_EPOCH=1490645797
 rm -rf %{buildroot}
 %make_install
 
