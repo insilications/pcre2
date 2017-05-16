@@ -6,7 +6,7 @@
 #
 Name     : pcre2
 Version  : 10.23
-Release  : 3
+Release  : 4
 URL      : http://downloads.sourceforge.net/project/pcre/pcre2/10.23/pcre2-10.23.tar.gz
 Source0  : http://downloads.sourceforge.net/project/pcre/pcre2/10.23/pcre2-10.23.tar.gz
 Source99 : http://downloads.sourceforge.net/project/pcre/pcre2/10.23/pcre2-10.23.tar.gz.sig
