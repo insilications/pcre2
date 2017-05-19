@@ -6,7 +6,7 @@
 #
 Name     : pcre2
 Version  : 10.23
-Release  : 4
+Release  : 5
 URL      : http://downloads.sourceforge.net/project/pcre/pcre2/10.23/pcre2-10.23.tar.gz
 Source0  : http://downloads.sourceforge.net/project/pcre/pcre2/10.23/pcre2-10.23.tar.gz
 Source99 : http://downloads.sourceforge.net/project/pcre/pcre2/10.23/pcre2-10.23.tar.gz.sig
@@ -21,6 +21,7 @@ BuildRequires : pkgconfig(valgrind)
 BuildRequires : pkgconfig(zlib)
 BuildRequires : zlib-dev
 Patch1: cve-2017-7186.patch
+Patch2: CVE-2017-8786.nopatch
 
 %description
 ------------------------------------------------------------------
@@ -68,8 +69,15 @@ lib components for the pcre2 package.
 %patch1 -p1
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1490645797
+export SOURCE_DATE_EPOCH=1495211106
+export CFLAGS="$CFLAGS -fstack-protector-strong "
+export FCFLAGS="$CFLAGS -fstack-protector-strong "
+export FFLAGS="$CFLAGS -fstack-protector-strong "
+export CXXFLAGS="$CXXFLAGS -fstack-protector-strong "
 %configure --disable-static
 make V=1  %{?_smp_mflags}
 
@@ -77,11 +85,11 @@ make V=1  %{?_smp_mflags}
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1490645797
+export SOURCE_DATE_EPOCH=1495211106
 rm -rf %{buildroot}
 %make_install
 
