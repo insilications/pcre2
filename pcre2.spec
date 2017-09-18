@@ -6,7 +6,7 @@
 #
 Name     : pcre2
 Version  : 10.30
-Release  : 7
+Release  : 8
 URL      : https://sourceforge.net/projects/pcre/files/pcre2/10.30/pcre2-10.30.tar.gz
 Source0  : https://sourceforge.net/projects/pcre/files/pcre2/10.30/pcre2-10.30.tar.gz
 Source99 : https://sourceforge.net/projects/pcre/files/pcre2/10.30/pcre2-10.30.tar.gz.sig
