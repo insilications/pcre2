@@ -6,7 +6,7 @@
 #
 Name     : pcre2
 Version  : 10.30
-Release  : 6
+Release  : 7
 URL      : https://sourceforge.net/projects/pcre/files/pcre2/10.30/pcre2-10.30.tar.gz
 Source0  : https://sourceforge.net/projects/pcre/files/pcre2/10.30/pcre2-10.30.tar.gz
 Source99 : https://sourceforge.net/projects/pcre/files/pcre2/10.30/pcre2-10.30.tar.gz.sig
@@ -20,6 +20,7 @@ BuildRequires : bzip2-dev
 BuildRequires : pkgconfig(valgrind)
 BuildRequires : pkgconfig(zlib)
 BuildRequires : zlib-dev
+Patch1: cve-2017-8399.nopatch
 
 %description
 ------------------------------------------------------------------
@@ -70,7 +71,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1503087848
+export SOURCE_DATE_EPOCH=1505692977
 export CFLAGS="$CFLAGS -fstack-protector-strong "
 export FCFLAGS="$CFLAGS -fstack-protector-strong "
 export FFLAGS="$CFLAGS -fstack-protector-strong "
@@ -86,7 +87,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1503087848
+export SOURCE_DATE_EPOCH=1505692977
 rm -rf %{buildroot}
 %make_install
 
