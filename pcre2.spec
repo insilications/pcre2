@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x9766E084FB0F43D8 (ph10@cam.ac.uk)
 #
 Name     : pcre2
-Version  : 10.30
-Release  : 11
-URL      : https://sourceforge.net/projects/pcre/files/pcre2/10.30/pcre2-10.30.tar.gz
-Source0  : https://sourceforge.net/projects/pcre/files/pcre2/10.30/pcre2-10.30.tar.gz
-Source99 : https://sourceforge.net/projects/pcre/files/pcre2/10.30/pcre2-10.30.tar.gz.sig
+Version  : 10.31
+Release  : 12
+URL      : https://sourceforge.net/projects/pcre/files/pcre2/10.31/pcre2-10.31.tar.gz
+Source0  : https://sourceforge.net/projects/pcre/files/pcre2/10.31/pcre2-10.31.tar.gz
+Source99 : https://sourceforge.net/projects/pcre/files/pcre2/10.31/pcre2-10.31.tar.gz.sig
 Summary  : PCRE2 - Perl compatible regular expressions C library (2nd API) with 32 bit character support
 Group    : Development/Tools
 License  : BSD-3-Clause
@@ -64,18 +64,18 @@ lib components for the pcre2 package.
 
 
 %prep
-%setup -q -n pcre2-10.30
+%setup -q -n pcre2-10.31
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1518468915
-export CFLAGS="$CFLAGS -fstack-protector-strong "
-export FCFLAGS="$CFLAGS -fstack-protector-strong "
-export FFLAGS="$CFLAGS -fstack-protector-strong "
-export CXXFLAGS="$CXXFLAGS -fstack-protector-strong "
+export SOURCE_DATE_EPOCH=1518614242
+export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs "
+export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs "
+export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs "
+export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs "
 %configure --disable-static --enable-pcre2-16 \
 --enable-unicode
 make  %{?_smp_mflags}
@@ -88,7 +88,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1518468915
+export SOURCE_DATE_EPOCH=1518614242
 rm -rf %{buildroot}
 %make_install
 
@@ -120,8 +120,8 @@ rm -rf %{buildroot}
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libpcre2-16.so.0
-/usr/lib64/libpcre2-16.so.0.6.0
+/usr/lib64/libpcre2-16.so.0.7.0
 /usr/lib64/libpcre2-8.so.0
-/usr/lib64/libpcre2-8.so.0.6.0
+/usr/lib64/libpcre2-8.so.0.7.0
 /usr/lib64/libpcre2-posix.so.2
 /usr/lib64/libpcre2-posix.so.2.0.0
