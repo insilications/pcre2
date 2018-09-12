@@ -1,0 +1,4 @@
+10.32
+bzip2-dev
+pkgconfig(zlib)
+zlib-dev

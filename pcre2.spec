@@ -5,17 +5,18 @@
 # Source0 file verified with key 0x9766E084FB0F43D8 (ph10@cam.ac.uk)
 #
 Name     : pcre2
-Version  : 10.31
-Release  : 15
-URL      : https://sourceforge.net/projects/pcre/files/pcre2/10.31/pcre2-10.31.tar.gz
-Source0  : https://sourceforge.net/projects/pcre/files/pcre2/10.31/pcre2-10.31.tar.gz
-Source99 : https://sourceforge.net/projects/pcre/files/pcre2/10.31/pcre2-10.31.tar.gz.sig
+Version  : 10.32
+Release  : 16
+URL      : https://sourceforge.net/projects/pcre/files/pcre2/10.32/pcre2-10.32.tar.gz
+Source0  : https://sourceforge.net/projects/pcre/files/pcre2/10.32/pcre2-10.32.tar.gz
+Source99 : https://sourceforge.net/projects/pcre/files/pcre2/10.32/pcre2-10.32.tar.gz.sig
 Summary  : PCRE2 - Perl compatible regular expressions C library (2nd API) with 32 bit character support
 Group    : Development/Tools
 License  : BSD-3-Clause
 Requires: pcre2-bin
 Requires: pcre2-lib
-Requires: pcre2-doc
+Requires: pcre2-license
+Requires: pcre2-man
 BuildRequires : bzip2-dev
 BuildRequires : pkgconfig(valgrind)
 BuildRequires : pkgconfig(zlib)
@@ -31,6 +32,8 @@ formats from:
 %package bin
 Summary: bin components for the pcre2 package.
 Group: Binaries
+Requires: pcre2-license
+Requires: pcre2-man
 
 %description bin
 bin components for the pcre2 package.
@@ -50,6 +53,7 @@ dev components for the pcre2 package.
 %package doc
 Summary: doc components for the pcre2 package.
 Group: Documentation
+Requires: pcre2-man
 
 %description doc
 doc components for the pcre2 package.
@@ -58,20 +62,37 @@ doc components for the pcre2 package.
 %package lib
 Summary: lib components for the pcre2 package.
 Group: Libraries
+Requires: pcre2-license
 
 %description lib
 lib components for the pcre2 package.
 
 
+%package license
+Summary: license components for the pcre2 package.
+Group: Default
+
+%description license
+license components for the pcre2 package.
+
+
+%package man
+Summary: man components for the pcre2 package.
+Group: Default
+
+%description man
+man components for the pcre2 package.
+
+
 %prep
-%setup -q -n pcre2-10.31
+%setup -q -n pcre2-10.32
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1526014098
+export SOURCE_DATE_EPOCH=1536775033
 export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -88,8 +109,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1526014098
+export SOURCE_DATE_EPOCH=1536775033
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/doc/pcre2
+cp cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/doc/pcre2/cmake_COPYING-CMAKE-SCRIPTS
 %make_install
 
 %files
@@ -110,18 +133,115 @@ rm -rf %{buildroot}
 /usr/lib64/pkgconfig/libpcre2-16.pc
 /usr/lib64/pkgconfig/libpcre2-8.pc
 /usr/lib64/pkgconfig/libpcre2-posix.pc
+/usr/share/man/man3/pcre2.3
+/usr/share/man/man3/pcre2_callout_enumerate.3
+/usr/share/man/man3/pcre2_code_copy.3
+/usr/share/man/man3/pcre2_code_copy_with_tables.3
+/usr/share/man/man3/pcre2_code_free.3
+/usr/share/man/man3/pcre2_compile.3
+/usr/share/man/man3/pcre2_compile_context_copy.3
+/usr/share/man/man3/pcre2_compile_context_create.3
+/usr/share/man/man3/pcre2_compile_context_free.3
+/usr/share/man/man3/pcre2_config.3
+/usr/share/man/man3/pcre2_convert_context_copy.3
+/usr/share/man/man3/pcre2_convert_context_create.3
+/usr/share/man/man3/pcre2_convert_context_free.3
+/usr/share/man/man3/pcre2_converted_pattern_free.3
+/usr/share/man/man3/pcre2_dfa_match.3
+/usr/share/man/man3/pcre2_general_context_copy.3
+/usr/share/man/man3/pcre2_general_context_create.3
+/usr/share/man/man3/pcre2_general_context_free.3
+/usr/share/man/man3/pcre2_get_error_message.3
+/usr/share/man/man3/pcre2_get_mark.3
+/usr/share/man/man3/pcre2_get_ovector_count.3
+/usr/share/man/man3/pcre2_get_ovector_pointer.3
+/usr/share/man/man3/pcre2_get_startchar.3
+/usr/share/man/man3/pcre2_jit_compile.3
+/usr/share/man/man3/pcre2_jit_free_unused_memory.3
+/usr/share/man/man3/pcre2_jit_match.3
+/usr/share/man/man3/pcre2_jit_stack_assign.3
+/usr/share/man/man3/pcre2_jit_stack_create.3
+/usr/share/man/man3/pcre2_jit_stack_free.3
+/usr/share/man/man3/pcre2_maketables.3
+/usr/share/man/man3/pcre2_match.3
+/usr/share/man/man3/pcre2_match_context_copy.3
+/usr/share/man/man3/pcre2_match_context_create.3
+/usr/share/man/man3/pcre2_match_context_free.3
+/usr/share/man/man3/pcre2_match_data_create.3
+/usr/share/man/man3/pcre2_match_data_create_from_pattern.3
+/usr/share/man/man3/pcre2_match_data_free.3
+/usr/share/man/man3/pcre2_pattern_convert.3
+/usr/share/man/man3/pcre2_pattern_info.3
+/usr/share/man/man3/pcre2_serialize_decode.3
+/usr/share/man/man3/pcre2_serialize_encode.3
+/usr/share/man/man3/pcre2_serialize_free.3
+/usr/share/man/man3/pcre2_serialize_get_number_of_codes.3
+/usr/share/man/man3/pcre2_set_bsr.3
+/usr/share/man/man3/pcre2_set_callout.3
+/usr/share/man/man3/pcre2_set_character_tables.3
+/usr/share/man/man3/pcre2_set_compile_extra_options.3
+/usr/share/man/man3/pcre2_set_compile_recursion_guard.3
+/usr/share/man/man3/pcre2_set_depth_limit.3
+/usr/share/man/man3/pcre2_set_glob_escape.3
+/usr/share/man/man3/pcre2_set_glob_separator.3
+/usr/share/man/man3/pcre2_set_heap_limit.3
+/usr/share/man/man3/pcre2_set_match_limit.3
+/usr/share/man/man3/pcre2_set_max_pattern_length.3
+/usr/share/man/man3/pcre2_set_newline.3
+/usr/share/man/man3/pcre2_set_offset_limit.3
+/usr/share/man/man3/pcre2_set_parens_nest_limit.3
+/usr/share/man/man3/pcre2_set_recursion_limit.3
+/usr/share/man/man3/pcre2_set_recursion_memory_management.3
+/usr/share/man/man3/pcre2_substitute.3
+/usr/share/man/man3/pcre2_substring_copy_byname.3
+/usr/share/man/man3/pcre2_substring_copy_bynumber.3
+/usr/share/man/man3/pcre2_substring_free.3
+/usr/share/man/man3/pcre2_substring_get_byname.3
+/usr/share/man/man3/pcre2_substring_get_bynumber.3
+/usr/share/man/man3/pcre2_substring_length_byname.3
+/usr/share/man/man3/pcre2_substring_length_bynumber.3
+/usr/share/man/man3/pcre2_substring_list_free.3
+/usr/share/man/man3/pcre2_substring_list_get.3
+/usr/share/man/man3/pcre2_substring_nametable_scan.3
+/usr/share/man/man3/pcre2_substring_number_from_name.3
+/usr/share/man/man3/pcre2api.3
+/usr/share/man/man3/pcre2build.3
+/usr/share/man/man3/pcre2callout.3
+/usr/share/man/man3/pcre2compat.3
+/usr/share/man/man3/pcre2convert.3
+/usr/share/man/man3/pcre2demo.3
+/usr/share/man/man3/pcre2jit.3
+/usr/share/man/man3/pcre2limits.3
+/usr/share/man/man3/pcre2matching.3
+/usr/share/man/man3/pcre2partial.3
+/usr/share/man/man3/pcre2pattern.3
+/usr/share/man/man3/pcre2perform.3
+/usr/share/man/man3/pcre2posix.3
+/usr/share/man/man3/pcre2sample.3
+/usr/share/man/man3/pcre2serialize.3
+/usr/share/man/man3/pcre2syntax.3
+/usr/share/man/man3/pcre2unicode.3
 
 %files doc
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 %doc /usr/share/doc/pcre2/*
-%doc /usr/share/man/man1/*
-%doc /usr/share/man/man3/*
 
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libpcre2-16.so.0
-/usr/lib64/libpcre2-16.so.0.7.0
+/usr/lib64/libpcre2-16.so.0.7.1
 /usr/lib64/libpcre2-8.so.0
-/usr/lib64/libpcre2-8.so.0.7.0
+/usr/lib64/libpcre2-8.so.0.7.1
 /usr/lib64/libpcre2-posix.so.2
-/usr/lib64/libpcre2-posix.so.2.0.0
+/usr/lib64/libpcre2-posix.so.2.0.1
+
+%files license
+%defattr(-,root,root,-)
+/usr/share/doc/pcre2/COPYING
+/usr/share/doc/pcre2/cmake_COPYING-CMAKE-SCRIPTS
+
+%files man
+%defattr(-,root,root,-)
+/usr/share/man/man1/pcre2-config.1
+/usr/share/man/man1/pcre2grep.1
+/usr/share/man/man1/pcre2test.1
