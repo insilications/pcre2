@@ -6,7 +6,7 @@
 #
 Name     : pcre2
 Version  : 10.32
-Release  : 16
+Release  : 17
 URL      : https://sourceforge.net/projects/pcre/files/pcre2/10.32/pcre2-10.32.tar.gz
 Source0  : https://sourceforge.net/projects/pcre/files/pcre2/10.32/pcre2-10.32.tar.gz
 Source99 : https://sourceforge.net/projects/pcre/files/pcre2/10.32/pcre2-10.32.tar.gz.sig
@@ -92,13 +92,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1536775033
+export SOURCE_DATE_EPOCH=1536775226
 export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static --enable-pcre2-16 \
---enable-unicode
+--enable-unicode \
+--enable-jit=auto
 make  %{?_smp_mflags}
 
 %check
@@ -109,9 +110,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1536775033
+export SOURCE_DATE_EPOCH=1536775226
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/pcre2
+cp LICENCE %{buildroot}/usr/share/doc/pcre2/LICENCE
 cp cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/doc/pcre2/cmake_COPYING-CMAKE-SCRIPTS
 %make_install
 
