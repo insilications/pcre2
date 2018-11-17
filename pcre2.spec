@@ -6,7 +6,7 @@
 #
 Name     : pcre2
 Version  : 10.32
-Release  : 18
+Release  : 19
 URL      : https://sourceforge.net/projects/pcre/files/pcre2/10.32/pcre2-10.32.tar.gz
 Source0  : https://sourceforge.net/projects/pcre/files/pcre2/10.32/pcre2-10.32.tar.gz
 Source99 : https://sourceforge.net/projects/pcre/files/pcre2/10.32/pcre2-10.32.tar.gz.sig
@@ -95,11 +95,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1542481699
-export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export SOURCE_DATE_EPOCH=1542481933
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static --enable-pcre2-16 \
 --enable-unicode \
 --enable-jit=auto
@@ -125,7 +125,7 @@ cd ../buildavx2;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1542481699
+export SOURCE_DATE_EPOCH=1542481933
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre2
 cp LICENCE %{buildroot}/usr/share/package-licenses/pcre2/LICENCE
