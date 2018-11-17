@@ -6,17 +6,17 @@
 #
 Name     : pcre2
 Version  : 10.32
-Release  : 17
+Release  : 18
 URL      : https://sourceforge.net/projects/pcre/files/pcre2/10.32/pcre2-10.32.tar.gz
 Source0  : https://sourceforge.net/projects/pcre/files/pcre2/10.32/pcre2-10.32.tar.gz
 Source99 : https://sourceforge.net/projects/pcre/files/pcre2/10.32/pcre2-10.32.tar.gz.sig
 Summary  : PCRE2 - Perl compatible regular expressions C library (2nd API) with 32 bit character support
 Group    : Development/Tools
 License  : BSD-3-Clause
-Requires: pcre2-bin
-Requires: pcre2-lib
-Requires: pcre2-license
-Requires: pcre2-man
+Requires: pcre2-bin = %{version}-%{release}
+Requires: pcre2-lib = %{version}-%{release}
+Requires: pcre2-license = %{version}-%{release}
+Requires: pcre2-man = %{version}-%{release}
 BuildRequires : bzip2-dev
 BuildRequires : pkgconfig(valgrind)
 BuildRequires : pkgconfig(zlib)
@@ -32,8 +32,8 @@ formats from:
 %package bin
 Summary: bin components for the pcre2 package.
 Group: Binaries
-Requires: pcre2-license
-Requires: pcre2-man
+Requires: pcre2-license = %{version}-%{release}
+Requires: pcre2-man = %{version}-%{release}
 
 %description bin
 bin components for the pcre2 package.
@@ -42,9 +42,9 @@ bin components for the pcre2 package.
 %package dev
 Summary: dev components for the pcre2 package.
 Group: Development
-Requires: pcre2-lib
-Requires: pcre2-bin
-Provides: pcre2-devel
+Requires: pcre2-lib = %{version}-%{release}
+Requires: pcre2-bin = %{version}-%{release}
+Provides: pcre2-devel = %{version}-%{release}
 
 %description dev
 dev components for the pcre2 package.
@@ -53,7 +53,7 @@ dev components for the pcre2 package.
 %package doc
 Summary: doc components for the pcre2 package.
 Group: Documentation
-Requires: pcre2-man
+Requires: pcre2-man = %{version}-%{release}
 
 %description doc
 doc components for the pcre2 package.
@@ -62,7 +62,7 @@ doc components for the pcre2 package.
 %package lib
 Summary: lib components for the pcre2 package.
 Group: Libraries
-Requires: pcre2-license
+Requires: pcre2-license = %{version}-%{release}
 
 %description lib
 lib components for the pcre2 package.
@@ -86,13 +86,16 @@ man components for the pcre2 package.
 
 %prep
 %setup -q -n pcre2-10.32
+pushd ..
+cp -a pcre2-10.32 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1536775226
+export SOURCE_DATE_EPOCH=1542481699
 export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -102,19 +105,34 @@ export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=use
 --enable-jit=auto
 make  %{?_smp_mflags}
 
+unset PKG_CONFIG_PATH
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=haswell"
+export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
+export LDFLAGS="$LDFLAGS -m64 -march=haswell"
+%configure --disable-static --enable-pcre2-16 \
+--enable-unicode \
+--enable-jit=auto
+make  %{?_smp_mflags}
+popd
 %check
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
+cd ../buildavx2;
+make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1536775226
+export SOURCE_DATE_EPOCH=1542481699
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/pcre2
-cp LICENCE %{buildroot}/usr/share/doc/pcre2/LICENCE
-cp cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/doc/pcre2/cmake_COPYING-CMAKE-SCRIPTS
+mkdir -p %{buildroot}/usr/share/package-licenses/pcre2
+cp LICENCE %{buildroot}/usr/share/package-licenses/pcre2/LICENCE
+cp cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/pcre2/cmake_COPYING-CMAKE-SCRIPTS
+pushd ../buildavx2/
+%make_install_avx2
+popd
 %make_install
 
 %files
@@ -122,6 +140,8 @@ cp cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/doc/pcre2/cmake_COPYING-CM
 
 %files bin
 %defattr(-,root,root,-)
+/usr/bin/haswell/pcre2grep
+/usr/bin/haswell/pcre2test
 /usr/bin/pcre2-config
 /usr/bin/pcre2grep
 /usr/bin/pcre2test
@@ -129,6 +149,8 @@ cp cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/doc/pcre2/cmake_COPYING-CM
 %files dev
 %defattr(-,root,root,-)
 /usr/include/*.h
+/usr/lib64/haswell/libpcre2-16.so
+/usr/lib64/haswell/libpcre2-8.so
 /usr/lib64/libpcre2-16.so
 /usr/lib64/libpcre2-8.so
 /usr/lib64/libpcre2-posix.so
@@ -230,6 +252,10 @@ cp cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/doc/pcre2/cmake_COPYING-CM
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/haswell/libpcre2-16.so.0
+/usr/lib64/haswell/libpcre2-16.so.0.7.1
+/usr/lib64/haswell/libpcre2-8.so.0
+/usr/lib64/haswell/libpcre2-8.so.0.7.1
 /usr/lib64/libpcre2-16.so.0
 /usr/lib64/libpcre2-16.so.0.7.1
 /usr/lib64/libpcre2-8.so.0
@@ -238,12 +264,12 @@ cp cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/doc/pcre2/cmake_COPYING-CM
 /usr/lib64/libpcre2-posix.so.2.0.1
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/pcre2/COPYING
-/usr/share/doc/pcre2/cmake_COPYING-CMAKE-SCRIPTS
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/pcre2/LICENCE
+/usr/share/package-licenses/pcre2/cmake_COPYING-CMAKE-SCRIPTS
 
 %files man
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/man/man1/pcre2-config.1
 /usr/share/man/man1/pcre2grep.1
 /usr/share/man/man1/pcre2test.1
