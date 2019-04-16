@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x9766E084FB0F43D8 (ph10@cam.ac.uk)
 #
 Name     : pcre2
-Version  : 10.32
-Release  : 19
-URL      : https://sourceforge.net/projects/pcre/files/pcre2/10.32/pcre2-10.32.tar.gz
-Source0  : https://sourceforge.net/projects/pcre/files/pcre2/10.32/pcre2-10.32.tar.gz
-Source99 : https://sourceforge.net/projects/pcre/files/pcre2/10.32/pcre2-10.32.tar.gz.sig
+Version  : 10.33
+Release  : 21
+URL      : https://sourceforge.net/projects/pcre/files/pcre2/10.33/pcre2-10.33.tar.gz
+Source0  : https://sourceforge.net/projects/pcre/files/pcre2/10.33/pcre2-10.33.tar.gz
+Source99 : https://sourceforge.net/projects/pcre/files/pcre2/10.33/pcre2-10.33.tar.gz.sig
 Summary  : PCRE2 - Perl compatible regular expressions C library (2nd API) with 32 bit character support
 Group    : Development/Tools
 License  : BSD-3-Clause
@@ -25,15 +25,16 @@ Patch1: cve-2017-8399.nopatch
 
 %description
 ------------------------------------------------------------------
-PCRE2 is a re-working of the original PCRE library to provide an entirely new
-API. The latest release of PCRE2 is always available in three alternative
-formats from:
+PCRE2 is a re-working of the original PCRE1 library to provide an entirely new
+API. Since its initial release in 2015, there has been further development of
+the code and it now differs from PCRE1 in more than just the API. There are new
+features and the internals have been improved. The latest release of PCRE2 is
+always available in three alternative formats from:
 
 %package bin
 Summary: bin components for the pcre2 package.
 Group: Binaries
 Requires: pcre2-license = %{version}-%{release}
-Requires: pcre2-man = %{version}-%{release}
 
 %description bin
 bin components for the pcre2 package.
@@ -45,6 +46,7 @@ Group: Development
 Requires: pcre2-lib = %{version}-%{release}
 Requires: pcre2-bin = %{version}-%{release}
 Provides: pcre2-devel = %{version}-%{release}
+Requires: pcre2 = %{version}-%{release}
 
 %description dev
 dev components for the pcre2 package.
@@ -85,9 +87,9 @@ man components for the pcre2 package.
 
 
 %prep
-%setup -q -n pcre2-10.32
+%setup -q -n pcre2-10.33
 pushd ..
-cp -a pcre2-10.32 buildavx2
+cp -a pcre2-10.33 buildavx2
 popd
 
 %build
@@ -95,7 +97,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1542481933
+export SOURCE_DATE_EPOCH=1555449617
+export LDFLAGS="${LDFLAGS} -fno-lto"
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -125,7 +128,7 @@ cd ../buildavx2;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1542481933
+export SOURCE_DATE_EPOCH=1555449617
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre2
 cp LICENCE %{buildroot}/usr/share/package-licenses/pcre2/LICENCE
@@ -216,6 +219,7 @@ popd
 /usr/share/man/man3/pcre2_set_parens_nest_limit.3
 /usr/share/man/man3/pcre2_set_recursion_limit.3
 /usr/share/man/man3/pcre2_set_recursion_memory_management.3
+/usr/share/man/man3/pcre2_set_substitute_callout.3
 /usr/share/man/man3/pcre2_substitute.3
 /usr/share/man/man3/pcre2_substring_copy_byname.3
 /usr/share/man/man3/pcre2_substring_copy_bynumber.3
@@ -253,15 +257,15 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/haswell/libpcre2-16.so.0
-/usr/lib64/haswell/libpcre2-16.so.0.7.1
+/usr/lib64/haswell/libpcre2-16.so.0.8.0
 /usr/lib64/haswell/libpcre2-8.so.0
-/usr/lib64/haswell/libpcre2-8.so.0.7.1
+/usr/lib64/haswell/libpcre2-8.so.0.8.0
 /usr/lib64/libpcre2-16.so.0
-/usr/lib64/libpcre2-16.so.0.7.1
+/usr/lib64/libpcre2-16.so.0.8.0
 /usr/lib64/libpcre2-8.so.0
-/usr/lib64/libpcre2-8.so.0.7.1
+/usr/lib64/libpcre2-8.so.0.8.0
 /usr/lib64/libpcre2-posix.so.2
-/usr/lib64/libpcre2-posix.so.2.0.1
+/usr/lib64/libpcre2-posix.so.2.0.2
 
 %files license
 %defattr(0644,root,root,0755)

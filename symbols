@@ -56,6 +56,7 @@ libpcre2-16.so.0:pcre2_set_offset_limit_16
 libpcre2-16.so.0:pcre2_set_parens_nest_limit_16
 libpcre2-16.so.0:pcre2_set_recursion_limit_16
 libpcre2-16.so.0:pcre2_set_recursion_memory_management_16
+libpcre2-16.so.0:pcre2_set_substitute_callout_16
 libpcre2-16.so.0:pcre2_substitute_16
 libpcre2-16.so.0:pcre2_substring_copy_byname_16
 libpcre2-16.so.0:pcre2_substring_copy_bynumber_16
@@ -126,6 +127,7 @@ libpcre2-8.so.0:pcre2_set_offset_limit_8
 libpcre2-8.so.0:pcre2_set_parens_nest_limit_8
 libpcre2-8.so.0:pcre2_set_recursion_limit_8
 libpcre2-8.so.0:pcre2_set_recursion_memory_management_8
+libpcre2-8.so.0:pcre2_set_substitute_callout_8
 libpcre2-8.so.0:pcre2_substitute_8
 libpcre2-8.so.0:pcre2_substring_copy_byname_8
 libpcre2-8.so.0:pcre2_substring_copy_bynumber_8
@@ -138,6 +140,10 @@ libpcre2-8.so.0:pcre2_substring_list_free_8
 libpcre2-8.so.0:pcre2_substring_list_get_8
 libpcre2-8.so.0:pcre2_substring_nametable_scan_8
 libpcre2-8.so.0:pcre2_substring_number_from_name_8
+libpcre2-posix.so.2:pcre2_regcomp
+libpcre2-posix.so.2:pcre2_regerror
+libpcre2-posix.so.2:pcre2_regexec
+libpcre2-posix.so.2:pcre2_regfree
 libpcre2-posix.so.2:regcomp
 libpcre2-posix.so.2:regerror
 libpcre2-posix.so.2:regexec
