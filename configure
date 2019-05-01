@@ -1,3 +1,4 @@
 --enable-pcre2-16
+--enable-pcre2-32
 --enable-unicode
 --enable-jit=auto

@@ -6,7 +6,7 @@
 #
 Name     : pcre2
 Version  : 10.33
-Release  : 21
+Release  : 22
 URL      : https://sourceforge.net/projects/pcre/files/pcre2/10.33/pcre2-10.33.tar.gz
 Source0  : https://sourceforge.net/projects/pcre/files/pcre2/10.33/pcre2-10.33.tar.gz
 Source99 : https://sourceforge.net/projects/pcre/files/pcre2/10.33/pcre2-10.33.tar.gz.sig
@@ -61,6 +61,14 @@ Requires: pcre2-man = %{version}-%{release}
 doc components for the pcre2 package.
 
 
+%package extras
+Summary: extras components for the pcre2 package.
+Group: Default
+
+%description extras
+extras components for the pcre2 package.
+
+
 %package lib
 Summary: lib components for the pcre2 package.
 Group: Libraries
@@ -97,13 +105,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1555449617
+export SOURCE_DATE_EPOCH=1556742982
 export LDFLAGS="${LDFLAGS} -fno-lto"
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static --enable-pcre2-16 \
+--enable-pcre2-32 \
 --enable-unicode \
 --enable-jit=auto
 make  %{?_smp_mflags}
@@ -114,6 +123,7 @@ export CFLAGS="$CFLAGS -m64 -march=haswell"
 export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
 export LDFLAGS="$LDFLAGS -m64 -march=haswell"
 %configure --disable-static --enable-pcre2-16 \
+--enable-pcre2-32 \
 --enable-unicode \
 --enable-jit=auto
 make  %{?_smp_mflags}
@@ -128,7 +138,7 @@ cd ../buildavx2;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1555449617
+export SOURCE_DATE_EPOCH=1556742982
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre2
 cp LICENCE %{buildroot}/usr/share/package-licenses/pcre2/LICENCE
@@ -153,11 +163,14 @@ popd
 %defattr(-,root,root,-)
 /usr/include/*.h
 /usr/lib64/haswell/libpcre2-16.so
+/usr/lib64/haswell/libpcre2-32.so
 /usr/lib64/haswell/libpcre2-8.so
 /usr/lib64/libpcre2-16.so
+/usr/lib64/libpcre2-32.so
 /usr/lib64/libpcre2-8.so
 /usr/lib64/libpcre2-posix.so
 /usr/lib64/pkgconfig/libpcre2-16.pc
+/usr/lib64/pkgconfig/libpcre2-32.pc
 /usr/lib64/pkgconfig/libpcre2-8.pc
 /usr/lib64/pkgconfig/libpcre2-posix.pc
 /usr/share/man/man3/pcre2.3
@@ -254,8 +267,19 @@ popd
 %defattr(0644,root,root,0755)
 %doc /usr/share/doc/pcre2/*
 
+%files extras
+%defattr(-,root,root,-)
+/usr/lib64/haswell/libpcre2-32.so.0
+/usr/lib64/haswell/libpcre2-32.so.0.8.0
+/usr/lib64/libpcre2-32.so.0
+/usr/lib64/libpcre2-32.so.0.8.0
+
 %files lib
 %defattr(-,root,root,-)
+%exclude /usr/lib64/haswell/libpcre2-32.so.0
+%exclude /usr/lib64/haswell/libpcre2-32.so.0.8.0
+%exclude /usr/lib64/libpcre2-32.so.0
+%exclude /usr/lib64/libpcre2-32.so.0.8.0
 /usr/lib64/haswell/libpcre2-16.so.0
 /usr/lib64/haswell/libpcre2-16.so.0.8.0
 /usr/lib64/haswell/libpcre2-8.so.0
