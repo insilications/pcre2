@@ -6,10 +6,10 @@
 #
 Name     : pcre2
 Version  : 10.34
-Release  : 23
+Release  : 24
 URL      : https://sourceforge.net/projects/pcre/files/pcre2/10.34/pcre2-10.34.tar.gz
 Source0  : https://sourceforge.net/projects/pcre/files/pcre2/10.34/pcre2-10.34.tar.gz
-Source1 : https://sourceforge.net/projects/pcre/files/pcre2/10.34/pcre2-10.34.tar.gz.sig
+Source1  : https://sourceforge.net/projects/pcre/files/pcre2/10.34/pcre2-10.34.tar.gz.sig
 Summary  : PCRE2 - Perl compatible regular expressions C library (2nd API) with 32 bit character support
 Group    : Development/Tools
 License  : BSD-3-Clause
@@ -19,7 +19,6 @@ Requires: pcre2-license = %{version}-%{release}
 Requires: pcre2-man = %{version}-%{release}
 BuildRequires : bzip2-dev
 BuildRequires : pkgconfig(valgrind)
-BuildRequires : pkgconfig(zlib)
 BuildRequires : zlib-dev
 Patch1: cve-2017-8399.nopatch
 
@@ -46,7 +45,6 @@ Group: Development
 Requires: pcre2-lib = %{version}-%{release}
 Requires: pcre2-bin = %{version}-%{release}
 Provides: pcre2-devel = %{version}-%{release}
-Requires: pcre2 = %{version}-%{release}
 Requires: pcre2 = %{version}-%{release}
 
 %description dev
@@ -107,16 +105,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1574453868
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1577934920
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static --enable-pcre2-16 \
 --enable-pcre2-32 \
 --enable-unicode \
@@ -144,7 +141,7 @@ cd ../buildavx2;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1574453868
+export SOURCE_DATE_EPOCH=1577934920
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre2
 cp %{_builddir}/pcre2-10.34/LICENCE %{buildroot}/usr/share/package-licenses/pcre2/a90d46253481cf09cf3baf17c6487f6dd81ef1e2
@@ -279,18 +276,18 @@ popd
 %files extras
 %defattr(-,root,root,-)
 /usr/lib64/haswell/libpcre2-32.so.0
+/usr/lib64/haswell/libpcre2-32.so.0.9.0
 /usr/lib64/libpcre2-32.so.0
+/usr/lib64/libpcre2-32.so.0.9.0
 
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/haswell/libpcre2-16.so.0
 /usr/lib64/haswell/libpcre2-16.so.0.9.0
-/usr/lib64/haswell/libpcre2-32.so.0.9.0
 /usr/lib64/haswell/libpcre2-8.so.0
 /usr/lib64/haswell/libpcre2-8.so.0.9.0
 /usr/lib64/libpcre2-16.so.0
 /usr/lib64/libpcre2-16.so.0.9.0
-/usr/lib64/libpcre2-32.so.0.9.0
 /usr/lib64/libpcre2-8.so.0
 /usr/lib64/libpcre2-8.so.0.9.0
 /usr/lib64/libpcre2-posix.so.2

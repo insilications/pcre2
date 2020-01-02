@@ -1,4 +1,2 @@
 10.34
 bzip2-dev
-pkgconfig(zlib)
-zlib-dev
