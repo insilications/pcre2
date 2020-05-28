@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x9766E084FB0F43D8 (ph10@cam.ac.uk)
 #
 Name     : pcre2
-Version  : 10.34
-Release  : 24
-URL      : https://sourceforge.net/projects/pcre/files/pcre2/10.34/pcre2-10.34.tar.gz
-Source0  : https://sourceforge.net/projects/pcre/files/pcre2/10.34/pcre2-10.34.tar.gz
-Source1  : https://sourceforge.net/projects/pcre/files/pcre2/10.34/pcre2-10.34.tar.gz.sig
+Version  : 10.35
+Release  : 25
+URL      : https://sourceforge.net/projects/pcre/files/pcre2/10.35/pcre2-10.35.tar.gz
+Source0  : https://sourceforge.net/projects/pcre/files/pcre2/10.35/pcre2-10.35.tar.gz
+Source1  : https://sourceforge.net/projects/pcre/files/pcre2/10.35/pcre2-10.35.tar.gz.sig
 Summary  : PCRE2 - Perl compatible regular expressions C library (2nd API) with 32 bit character support
 Group    : Development/Tools
 License  : BSD-3-Clause
@@ -94,10 +94,10 @@ man components for the pcre2 package.
 
 
 %prep
-%setup -q -n pcre2-10.34
-cd %{_builddir}/pcre2-10.34
+%setup -q -n pcre2-10.35
+cd %{_builddir}/pcre2-10.35
 pushd ..
-cp -a pcre2-10.34 buildavx2
+cp -a pcre2-10.35 buildavx2
 popd
 
 %build
@@ -105,14 +105,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1577934920
+export SOURCE_DATE_EPOCH=1590703339
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static --enable-pcre2-16 \
 --enable-pcre2-32 \
@@ -124,6 +124,8 @@ unset PKG_CONFIG_PATH
 pushd ../buildavx2/
 export CFLAGS="$CFLAGS -m64 -march=haswell"
 export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
+export FFLAGS="$FFLAGS -m64 -march=haswell"
+export FCFLAGS="$FCFLAGS -m64 -march=haswell"
 export LDFLAGS="$LDFLAGS -m64 -march=haswell"
 %configure --disable-static --enable-pcre2-16 \
 --enable-pcre2-32 \
@@ -141,11 +143,11 @@ cd ../buildavx2;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1577934920
+export SOURCE_DATE_EPOCH=1590703339
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre2
-cp %{_builddir}/pcre2-10.34/LICENCE %{buildroot}/usr/share/package-licenses/pcre2/a90d46253481cf09cf3baf17c6487f6dd81ef1e2
-cp %{_builddir}/pcre2-10.34/cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/pcre2/ff3ed70db4739b3c6747c7f624fe2bad70802987
+cp %{_builddir}/pcre2-10.35/LICENCE %{buildroot}/usr/share/package-licenses/pcre2/b055467930e33d0ffda06b6ca23246ea705c1db7
+cp %{_builddir}/pcre2-10.35/cmake/COPYING-CMAKE-SCRIPTS %{buildroot}/usr/share/package-licenses/pcre2/ff3ed70db4739b3c6747c7f624fe2bad70802987
 pushd ../buildavx2/
 %make_install_avx2
 popd
@@ -276,26 +278,26 @@ popd
 %files extras
 %defattr(-,root,root,-)
 /usr/lib64/haswell/libpcre2-32.so.0
-/usr/lib64/haswell/libpcre2-32.so.0.9.0
+/usr/lib64/haswell/libpcre2-32.so.0.10.0
 /usr/lib64/libpcre2-32.so.0
-/usr/lib64/libpcre2-32.so.0.9.0
+/usr/lib64/libpcre2-32.so.0.10.0
 
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/haswell/libpcre2-16.so.0
-/usr/lib64/haswell/libpcre2-16.so.0.9.0
+/usr/lib64/haswell/libpcre2-16.so.0.10.0
 /usr/lib64/haswell/libpcre2-8.so.0
-/usr/lib64/haswell/libpcre2-8.so.0.9.0
+/usr/lib64/haswell/libpcre2-8.so.0.10.0
 /usr/lib64/libpcre2-16.so.0
-/usr/lib64/libpcre2-16.so.0.9.0
+/usr/lib64/libpcre2-16.so.0.10.0
 /usr/lib64/libpcre2-8.so.0
-/usr/lib64/libpcre2-8.so.0.9.0
+/usr/lib64/libpcre2-8.so.0.10.0
 /usr/lib64/libpcre2-posix.so.2
 /usr/lib64/libpcre2-posix.so.2.0.3
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/pcre2/a90d46253481cf09cf3baf17c6487f6dd81ef1e2
+/usr/share/package-licenses/pcre2/b055467930e33d0ffda06b6ca23246ea705c1db7
 /usr/share/package-licenses/pcre2/ff3ed70db4739b3c6747c7f624fe2bad70802987
 
 %files man
