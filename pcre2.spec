@@ -6,7 +6,7 @@
 #
 Name     : pcre2
 Version  : 10.35
-Release  : 25
+Release  : 26
 URL      : https://sourceforge.net/projects/pcre/files/pcre2/10.35/pcre2-10.35.tar.gz
 Source0  : https://sourceforge.net/projects/pcre/files/pcre2/10.35/pcre2-10.35.tar.gz
 Source1  : https://sourceforge.net/projects/pcre/files/pcre2/10.35/pcre2-10.35.tar.gz.sig
@@ -105,7 +105,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1590703339
+export SOURCE_DATE_EPOCH=1595290167
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -114,7 +114,25 @@ export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-m
 export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-%configure --disable-static --enable-pcre2-16 \
+export CFLAGS_GENERATE="$CFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
+export FCFLAGS_GENERATE="$FCFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
+export FFLAGS_GENERATE="$FFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
+export CXXFLAGS_GENERATE="$CXXFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
+export LDFLAGS_GENERATE="$LDFLAGS -fprofile-generate -fprofile-dir=/var/tmp/pgo -fprofile-update=atomic "
+export CFLAGS_USE="$CFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
+export FCFLAGS_USE="$FCFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
+export FFLAGS_USE="$FFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
+export CXXFLAGS_USE="$CXXFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
+export LDFLAGS_USE="$LDFLAGS -fprofile-use -fprofile-dir=/var/tmp/pgo -fprofile-correction "
+CFLAGS="${CFLAGS_GENERATE}" CXXFLAGS="${CXXFLAGS_GENERATE}" FFLAGS="${FFLAGS_GENERATE}" FCFLAGS="${FCFLAGS_GENERATE}" LDFLAGS="${LDFLAGS_GENERATE}" %configure --disable-static --enable-pcre2-16 \
+--enable-pcre2-32 \
+--enable-unicode \
+--enable-jit=auto
+make  %{?_smp_mflags}
+
+make VERBOSE=1 V=1 %{?_smp_mflags} check || :
+make clean
+CFLAGS="${CFLAGS_USE}" CXXFLAGS="${CXXFLAGS_USE}" FFLAGS="${FFLAGS_USE}" FCFLAGS="${FCFLAGS_USE}" LDFLAGS="${LDFLAGS_USE}" %configure --disable-static --enable-pcre2-16 \
 --enable-pcre2-32 \
 --enable-unicode \
 --enable-jit=auto
@@ -143,7 +161,7 @@ cd ../buildavx2;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1590703339
+export SOURCE_DATE_EPOCH=1595290167
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/pcre2
 cp %{_builddir}/pcre2-10.35/LICENCE %{buildroot}/usr/share/package-licenses/pcre2/b055467930e33d0ffda06b6ca23246ea705c1db7
@@ -171,6 +189,7 @@ popd
 /usr/lib64/haswell/libpcre2-16.so
 /usr/lib64/haswell/libpcre2-32.so
 /usr/lib64/haswell/libpcre2-8.so
+/usr/lib64/haswell/libpcre2-posix.so
 /usr/lib64/libpcre2-16.so
 /usr/lib64/libpcre2-32.so
 /usr/lib64/libpcre2-8.so
@@ -288,6 +307,8 @@ popd
 /usr/lib64/haswell/libpcre2-16.so.0.10.0
 /usr/lib64/haswell/libpcre2-8.so.0
 /usr/lib64/haswell/libpcre2-8.so.0.10.0
+/usr/lib64/haswell/libpcre2-posix.so.2
+/usr/lib64/haswell/libpcre2-posix.so.2.0.3
 /usr/lib64/libpcre2-16.so.0
 /usr/lib64/libpcre2-16.so.0.10.0
 /usr/lib64/libpcre2-8.so.0
