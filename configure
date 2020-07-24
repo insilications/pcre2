@@ -1,4 +1,1 @@
---enable-pcre2-16
---enable-pcre2-32
---enable-unicode
---enable-jit=auto
+--enable-pcre2-16 --enable-pcre2-32 --enable-unicode --enable-jit=auto --enable-shared --enable-static
