@@ -1,5 +1,13 @@
 # This file contains additional build requirements that did not get
 # picked up automatically. One name per line, no whitespace.
-zlib-dev
+buildreq-configure
 bzip2-dev
+bzip2-staticdev
 findutils
+gcc-dev32
+gcc-libgcc32
+gcc-libstdc++32
+glibc-dev32
+glibc-libc32
+zlib-dev
+zlib-staticdev
