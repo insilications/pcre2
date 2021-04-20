@@ -18,11 +18,20 @@ BuildRequires : buildreq-configure
 BuildRequires : bzip2-dev
 BuildRequires : bzip2-staticdev
 BuildRequires : findutils
+BuildRequires : gcc
+BuildRequires : gcc-abi
+BuildRequires : gcc-dev
 BuildRequires : gcc-dev32
+BuildRequires : gcc-doc
 BuildRequires : gcc-libgcc32
+BuildRequires : gcc-libs-math
 BuildRequires : gcc-libstdc++32
+BuildRequires : gcc-libubsan
+BuildRequires : gcc-locale
 BuildRequires : glibc-dev32
 BuildRequires : glibc-libc32
+BuildRequires : libgcc1
+BuildRequires : libstdc++
 BuildRequires : pkgconfig(valgrind)
 BuildRequires : zlib-dev
 BuildRequires : zlib-staticdev
@@ -142,7 +151,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1617791786
+export SOURCE_DATE_EPOCH=1618960228
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -222,7 +231,7 @@ make  %{?_smp_mflags}  V=1 VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1617791786
+export SOURCE_DATE_EPOCH=1618960228
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32 V=1 VERBOSE=1
@@ -256,6 +265,56 @@ popd
 /usr/lib64/pkgconfig/libpcre2-32.pc
 /usr/lib64/pkgconfig/libpcre2-8.pc
 /usr/lib64/pkgconfig/libpcre2-posix.pc
+
+%files dev32
+%defattr(-,root,root,-)
+/usr/lib32/libpcre2-16.so
+/usr/lib32/libpcre2-32.so
+/usr/lib32/libpcre2-8.so
+/usr/lib32/libpcre2-posix.so
+/usr/lib32/pkgconfig/32libpcre2-16.pc
+/usr/lib32/pkgconfig/32libpcre2-32.pc
+/usr/lib32/pkgconfig/32libpcre2-8.pc
+/usr/lib32/pkgconfig/32libpcre2-posix.pc
+/usr/lib32/pkgconfig/libpcre2-16.pc
+/usr/lib32/pkgconfig/libpcre2-32.pc
+/usr/lib32/pkgconfig/libpcre2-8.pc
+/usr/lib32/pkgconfig/libpcre2-posix.pc
+
+%files doc
+%defattr(0644,root,root,0755)
+%doc /usr/share/doc/pcre2/*
+
+%files extras
+%defattr(-,root,root,-)
+/usr/lib64/libpcre2-32.so.0
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib64/libpcre2-16.so.0
+/usr/lib64/libpcre2-16.so.0.10.1
+/usr/lib64/libpcre2-32.so.0.10.1
+/usr/lib64/libpcre2-8.so.0
+/usr/lib64/libpcre2-8.so.0.10.1
+/usr/lib64/libpcre2-posix.so.2
+/usr/lib64/libpcre2-posix.so.2.0.3
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/libpcre2-16.so.0
+/usr/lib32/libpcre2-16.so.0.10.1
+/usr/lib32/libpcre2-32.so.0
+/usr/lib32/libpcre2-32.so.0.10.1
+/usr/lib32/libpcre2-8.so.0
+/usr/lib32/libpcre2-8.so.0.10.1
+/usr/lib32/libpcre2-posix.so.2
+/usr/lib32/libpcre2-posix.so.2.0.3
+
+%files man
+%defattr(0644,root,root,0755)
+/usr/share/man/man1/pcre2-config.1
+/usr/share/man/man1/pcre2grep.1
+/usr/share/man/man1/pcre2test.1
 /usr/share/man/man3/pcre2.3
 /usr/share/man/man3/pcre2_callout_enumerate.3
 /usr/share/man/man3/pcre2_code_copy.3
@@ -347,56 +406,6 @@ popd
 /usr/share/man/man3/pcre2serialize.3
 /usr/share/man/man3/pcre2syntax.3
 /usr/share/man/man3/pcre2unicode.3
-
-%files dev32
-%defattr(-,root,root,-)
-/usr/lib32/libpcre2-16.so
-/usr/lib32/libpcre2-32.so
-/usr/lib32/libpcre2-8.so
-/usr/lib32/libpcre2-posix.so
-/usr/lib32/pkgconfig/32libpcre2-16.pc
-/usr/lib32/pkgconfig/32libpcre2-32.pc
-/usr/lib32/pkgconfig/32libpcre2-8.pc
-/usr/lib32/pkgconfig/32libpcre2-posix.pc
-/usr/lib32/pkgconfig/libpcre2-16.pc
-/usr/lib32/pkgconfig/libpcre2-32.pc
-/usr/lib32/pkgconfig/libpcre2-8.pc
-/usr/lib32/pkgconfig/libpcre2-posix.pc
-
-%files doc
-%defattr(0644,root,root,0755)
-%doc /usr/share/doc/pcre2/*
-
-%files extras
-%defattr(-,root,root,-)
-/usr/lib64/libpcre2-32.so.0
-
-%files lib
-%defattr(-,root,root,-)
-/usr/lib64/libpcre2-16.so.0
-/usr/lib64/libpcre2-16.so.0.10.1
-/usr/lib64/libpcre2-32.so.0.10.1
-/usr/lib64/libpcre2-8.so.0
-/usr/lib64/libpcre2-8.so.0.10.1
-/usr/lib64/libpcre2-posix.so.2
-/usr/lib64/libpcre2-posix.so.2.0.3
-
-%files lib32
-%defattr(-,root,root,-)
-/usr/lib32/libpcre2-16.so.0
-/usr/lib32/libpcre2-16.so.0.10.1
-/usr/lib32/libpcre2-32.so.0
-/usr/lib32/libpcre2-32.so.0.10.1
-/usr/lib32/libpcre2-8.so.0
-/usr/lib32/libpcre2-8.so.0.10.1
-/usr/lib32/libpcre2-posix.so.2
-/usr/lib32/libpcre2-posix.so.2.0.3
-
-%files man
-%defattr(0644,root,root,0755)
-/usr/share/man/man1/pcre2-config.1
-/usr/share/man/man1/pcre2grep.1
-/usr/share/man/man1/pcre2test.1
 
 %files staticdev
 %defattr(-,root,root,-)
