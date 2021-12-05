@@ -2,6 +2,7 @@
 # picked up automatically. One name per line, no whitespace.
 buildreq-configure
 bzip2-dev
+bzip2-dev32
 bzip2-staticdev
 findutils
 gcc-dev32
@@ -10,4 +11,6 @@ gcc-libstdc++32
 glibc-dev32
 glibc-libc32
 zlib-dev
+zlib-dev32
 zlib-staticdev
+zlib-staticdev32
