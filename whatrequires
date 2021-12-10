@@ -11,6 +11,9 @@ imapfilter
 less
 libbytesize
 pcre2-dev
+pcre2-dev32
+pcre2-staticdev
+pcre2-staticdev32
 php
 php-APCu
 php-Yaf
